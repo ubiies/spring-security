@@ -37,7 +37,7 @@ public class WebSecurityConfig {
                             .requestMatchers("/no-auth")
                             .permitAll()
                             .requestMatchers(
-                                    "re-auth",
+                                    "/re-auth",
                                     "/users/my-profile"
                             )
                             .authenticated() // 인증이 된 사용자만 허가
@@ -62,6 +62,10 @@ public class WebSecurityConfig {
                         .permitAll()
                 )
                 // 로그아웃 관련 설정
+                // 로그인 -> 쿠키를 통해 세션을 생성
+                //         아이디와 비밀번호
+                // 로그아웃 -> 세션을 제거
+                //        -> 세션 정보만 있으면 제거 가능
                 .logout(
                         logout -> logout
                                 // 로그아웃 요청을 보낼 URL
@@ -85,7 +89,7 @@ public class WebSecurityConfig {
                 .password(passwordEncoder.encode("password"))
                 .build();
         // Spring에서 미리 만들어놓은 사용자 인증 서비스
-        return new InMemoryUserDetailsManager();
+        return new InMemoryUserDetailsManager(user1);
     }
 
     @Bean
