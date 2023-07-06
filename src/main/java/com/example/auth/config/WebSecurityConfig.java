@@ -41,7 +41,8 @@ public class WebSecurityConfig {
                                     "/users/my-profile"
                             )
                             .authenticated() // 인증이 된 사용자만 허가
-                            .requestMatchers("/")
+                            .requestMatchers("/",
+                                    "/users/register")
                             .anonymous()  // 인증이 되지 않은 사용자만 허가
         )
         // form을 이용한 로그인 관련 설정
