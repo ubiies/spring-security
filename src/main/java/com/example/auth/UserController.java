@@ -21,9 +21,21 @@ public class UserController {
     }
 
     // 로그인 성공 후 로그인 여부를 위한 GetMapping
-    @GetMapping("/mv-profile")
+    @GetMapping("/my-profile")
     public String myProfile() {
-        return "mv-progile";
+        return "my-profile";
     }
+
+    // 1. 사용자가 register 페이지로 온다.
+    // 2. 사용자가 register 페이지에 ID, 비밀번호, 비밀번호 확인을 입력한다.
+    // 3. register 페이지에서 /users/register 로 POST 요청
+    // 4. UserDetailManager 에 새로운 정보 추가
+
+    @GetMapping("/register")
+    public String registerForm() {
+        return "register-form";
+    }
+
+
 
 }
