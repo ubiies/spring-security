@@ -63,14 +63,14 @@ public class UserController {
     ) {
         // TODO 사용자가 입력한 아이디 비밀번호 확인 값을 확인해보세요.
         if (password.equals(passwordCheck)) {
+            log.info("password match!");
             // username 중복도 확인해야 하지만, 이 부분은 service 에서 확인하는 것도 나쁘지 않음
             manager.createUser(User.withUsername(username)
                     .password(password)
                     .build());
+            return "redirect:/users/login";
         }
-
-        return "redirect:/users/login";
+        log.warn("password does not match...");
+        return "redirect:/users/login/register?error";
     }
-
-
 }
