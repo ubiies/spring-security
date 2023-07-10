@@ -37,7 +37,7 @@ public class WebSecurityConfig {
                             .requestMatchers("/no-auth")
                             .permitAll()
                             .requestMatchers(
-                                    "/re-auth",
+                                    "/users/logout",
                                     "/users/my-profile"
                             )
                             .authenticated() // 인증이 된 사용자만 허가
@@ -87,10 +87,13 @@ public class WebSecurityConfig {
     ) {
         // 임시 User
         UserDetails user1 = User.withUsername("user1")
-                .password(passwordEncoder.encode("password"))
+                .password(passwordEncoder.encode("password1"))
                 .build();
-        // Spring에서 미리 만들어놓은 사용자 인증 서비스
-        return new InMemoryUserDetailsManager(user1);
+        UserDetails user2 = User.withUsername("user2")
+                .password(passwordEncoder.encode("password2"))
+                .build();
+        // Spring 에서 미리 만들어놓은 사용자 인증 서비스
+        return new InMemoryUserDetailsManager(user1, user2);
     }
 
     @Bean
@@ -102,4 +105,9 @@ public class WebSecurityConfig {
         // 인코더를 @Bean으로 사용한다.
         return new BCryptPasswordEncoder();
     }
+
 }
+
+// 클래스 어노테이션 @Configuration
+// 클래스가 하나 이상의 @Bean 메소드를 선언하고 Spring 컨테이너에 의해 처리되어
+// 런타임에 해당 빈에 대한 정의 및 서비스 요청을 생성할 수 있음을 나타낸다

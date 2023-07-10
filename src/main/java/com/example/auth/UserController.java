@@ -1,8 +1,11 @@
 package com.example.auth;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
@@ -31,7 +34,13 @@ public class UserController {
 
     // 로그인 성공 후 로그인 여부를 위한 GetMapping
     @GetMapping("/my-profile")
-    public String myProfile() {
+    public String myProfile(
+            Authentication authentication
+    ) {
+        log.info(authentication.getName());
+        log.info(((User) authentication.getPrincipal()).getUsername());
+        log.info(SecurityContextHolder.getContext().getAuthentication().getName());
+        // 현재 접속 중인 사용자 정보 출력
         return "my-profile";
     }
 
@@ -61,7 +70,6 @@ public class UserController {
             @RequestParam("password") String password,
             @RequestParam("password-check") String passwordCheck
     ) {
-        // TODO 사용자가 입력한 아이디 비밀번호 확인 값을 확인해보세요.
         if (password.equals(passwordCheck)) {
             log.info("password match!");
             // username 중복도 확인해야 하지만, 이 부분은 service 에서 확인하는 것도 나쁘지 않음
