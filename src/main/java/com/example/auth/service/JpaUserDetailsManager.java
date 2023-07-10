@@ -58,7 +58,12 @@ public class JpaUserDetailsManager implements UserDetailsManager {
         this.userRepository.save(userEntity);
     }
 
-
+    // 계정 이름을 가진 사용자가 존재하는지 확인하는 메소드(선택)
+    @Override
+    public boolean userExists(String username) {
+        log.info("check id user: {} exists");
+        return this.userRepository.existsByUsername(username);
+    }
 
     // 얘네는 나중에 해보세요..
     @Override
@@ -76,10 +81,4 @@ public class JpaUserDetailsManager implements UserDetailsManager {
 
     }
 
-    // 계정 이름을 가진 사용자가 존재하는지 확인하는 메소드(선택)
-    @Override
-    public boolean userExists(String username) {
-        log.info("check id user: {} exists");
-        return this.userRepository.existsByUsername(username);
-    }
 }
