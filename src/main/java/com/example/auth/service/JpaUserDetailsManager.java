@@ -60,7 +60,7 @@ public class JpaUserDetailsManager implements UserDetailsManager {
                     ((CustomUserDetails) user).newEntity());
         } catch (ClassCastException e) {
             log.error("failed to cast to {}", CustomUserDetails.class);
-                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
