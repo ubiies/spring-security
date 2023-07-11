@@ -1,6 +1,7 @@
 package com.example.auth.jwt;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -18,6 +19,7 @@ import java.util.Date;
 @Component
 public class JwtTokenUtils {
     private final Key signingKey;
+    private final JwtParser jwtParser;
     public JwtTokenUtils(
             @Value("${jwt.secret}")
             String jwtSecret
@@ -26,6 +28,35 @@ public class JwtTokenUtils {
 
         this.signingKey =
                 Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
+        // JWT 번역기 만들기
+        this.jwtParser = Jwts
+                .parserBuilder()
+                .setSigningKey(this.signingKey)
+                .build();
+    }
+
+    // 1. JWT가 유효한지 판단하는 메소드
+    //    jjwt 라이브러리에서는 JWT를 해석하는 과정에서
+    //    유효하지 않으면 예외가 발생
+    public boolean validate(String token) {
+        try {
+            // 정당한 JWT면 true,
+            // parseClaimsJws: 암호화된 JWT를 해석하기 위한 메소드
+            jwtParser.parseClaimsJws(token);
+            return true;
+            // 정당하지 않은 JWT면 false
+        } catch (Exception e) {
+            log.warn("invalid jwt: {}", e.getClass());
+            return false;
+        }
+    }
+
+    // JWT를 인자로 받고, 그 JWT를 해석해서
+    // 사용자 정보를 회수하는 메소드
+    public Claims parseClaims(String token) {
+        return jwtParser
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     // 주어진 사용자 정보를 바탕으로 JWT를 문자열로 생성

@@ -76,8 +76,9 @@ public class UserController {
         if (password.equals(passwordCheck)) {
             log.info("password match!");
             // username 중복도 확인해야 하지만, 이 부분은 service 에서 확인하는 것도 나쁘지 않음
-            manager.createUser(User.withUsername(username)
-                    .password(password)
+            manager.createUser(CustomUserDetails.builder()
+                    .username(username)
+                    .password(passwordEncoder.encode(password))
                     .build());
             return "redirect:/users/login";
         }
