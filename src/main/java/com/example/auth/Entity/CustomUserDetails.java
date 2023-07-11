@@ -1,9 +1,8 @@
-package com.example.auth.service;
+package com.example.auth.Entity;
 
 // 사용자 정보에 추가적인 정보를 포함하고 싶다면...
 // UserDetails 인터이스를 구현하는 클래스
 
-import com.example.auth.Entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -26,12 +25,20 @@ public class CustomUserDetails implements UserDetails {
     public static CustomUserDetails fromEntity(
             UserEntity entity
     ) {
-        CustomUserDetails details = new CustomUserDetails();
-        details.id = entity.getId();
-        details.password = entity.getPassword();
-        details.email = entity.getEmail();
-        details.phone = entity.getPhone();
-        return details;
+//        CustomUserDetails details = new CustomUserDetails();
+//        details.id = entity.getId();
+//        details.password = entity.getPassword();
+//        details.email = entity.getEmail();
+//        details.phone = entity.getPhone();
+//        return details;
+
+        // 빌더 적용시
+        return CustomUserDetails.builder()
+                .id(entity.getId())
+                .username(entity.getUsername())
+                .password(entity.getEmail())
+                .phone(entity.getPhone())
+                .build();
     }
 
     public UserEntity newEntity() {
@@ -41,6 +48,17 @@ public class CustomUserDetails implements UserDetails {
         entity.setEmail(email);
         entity.setPhone(phone);
         return entity;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomUserDetails{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='[PROTECTED]'" +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
     }
 
     // 권한 설정을 위한 메서드 ex) 사용자, 관리자

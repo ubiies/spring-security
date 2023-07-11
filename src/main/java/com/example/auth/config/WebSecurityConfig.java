@@ -80,21 +80,21 @@ public class WebSecurityConfig {
         return http.build();
     }
 
-    @Bean
+//    @Bean
     // 사용자 관리를 위한 인터페이스 구현체 Bean
-    public UserDetailsManager userDetailsManager(
-            PasswordEncoder passwordEncoder
-    ) {
-        // 임시 User
-        UserDetails user1 = User.withUsername("user1")
-                .password(passwordEncoder.encode("password1"))
-                .build();
-        UserDetails user2 = User.withUsername("user2")
-                .password(passwordEncoder.encode("password2"))
-                .build();
-        // Spring 에서 미리 만들어놓은 사용자 인증 서비스
-        return new InMemoryUserDetailsManager(user1, user2);
-    }
+//    public UserDetailsManager userDetailsManager(
+//            PasswordEncoder passwordEncoder
+//    ) {
+//        // 임시 User
+//        UserDetails user1 = User.withUsername("user1")
+//                .password(passwordEncoder.encode("password1"))
+//                .build();
+//        UserDetails user2 = User.withUsername("user2")
+//                .password(passwordEncoder.encode("password2"))
+//                .build();
+//        // Spring 에서 미리 만들어놓은 사용자 인증 서비스
+//        return new InMemoryUserDetailsManager(user1, user2);
+//    }
 
     @Bean
     // 비밀번호 암호화를 위한 Bean

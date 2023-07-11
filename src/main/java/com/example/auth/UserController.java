@@ -1,5 +1,6 @@
 package com.example.auth;
 
+import com.example.auth.Entity.CustomUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -37,10 +38,12 @@ public class UserController {
     public String myProfile(
             Authentication authentication
     ) {
-        log.info(authentication.getName());
-        log.info(((User) authentication.getPrincipal()).getUsername());
-        log.info(SecurityContextHolder.getContext().getAuthentication().getName());
-        // 현재 접속 중인 사용자 정보 출력
+//        log.info(authentication.getName());
+//        log.info(((User) authentication.getPrincipal()).getUsername());
+        CustomUserDetails userDetails
+                = (CustomUserDetails) authentication.getPrincipal();
+        log.info(userDetails.getUsername());
+        // log.info(userDetails.getEmail);
         return "my-profile";
     }
 
